@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { useGLTF } from '@react-three/drei'
 
 import styles from './Home.module.scss'
 
@@ -13,3 +14,5 @@ export const Home = () => (
     </ul>
   </div>
 )
+
+useGLTF.preload('/shoe.glb')

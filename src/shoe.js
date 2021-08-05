@@ -11,9 +11,9 @@ import { GlobalState } from './globalState'
 
 export const Shoe = (props: any) => {
   const group = useRef()
-  const snap = useSnapshot(GlobalState) // short for snapshot
+  const snapshot = useSnapshot(GlobalState)
   const { nodes, materials } = useGLTF('/shoe.glb')
-  const [hovered, setHovered] = useState(null) // actually hoveredSelection
+  const [hoveredItem, setHoveredItem] = useState(null)
 
   useFrame((state) => {
     const t = state.clock.getElapsedTime()
@@ -25,9 +25,9 @@ export const Shoe = (props: any) => {
 
   useEffect(() => {
     document.body.style.cursor = `url('data:image/svg+xml;base64,${btoa(
-      hovered ? Cursor.hovered(hovered, snap.items[hovered]) : Cursor.auto,
+      hoveredItem ? Cursor.hovered(hoveredItem, snapshot.items[hoveredItem]) : Cursor.auto,
     )}'), auto`
-  }, [hovered, snap])
+  }, [hoveredItem, snapshot])
 
   return (
     <group
@@ -36,10 +36,10 @@ export const Shoe = (props: any) => {
       dispose={null}
       onPointerOver={(e) => {
         e.stopPropagation()
-        setHovered(e.object.material.name)
+        setHoveredItem(e.object.material.name)
       }}
       onPointerOut={(e) => {
-        e.intersections.length === 0 && setHovered(null)
+        e.intersections.length === 0 && setHoveredItem(null)
       }}
       onPointerDown={(e) => {
         e.stopPropagation()
@@ -49,14 +49,14 @@ export const Shoe = (props: any) => {
         GlobalState.current = null
       }}
     >
-      <mesh geometry={nodes.shoe.geometry} material={materials.laces} material-color={snap.items.laces} />
-      <mesh geometry={nodes.shoe_1.geometry} material={materials.mesh} material-color={snap.items.mesh} />
-      <mesh geometry={nodes.shoe_2.geometry} material={materials.caps} material-color={snap.items.caps} />
-      <mesh geometry={nodes.shoe_3.geometry} material={materials.inner} material-color={snap.items.inner} />
-      <mesh geometry={nodes.shoe_4.geometry} material={materials.sole} material-color={snap.items.sole} />
-      <mesh geometry={nodes.shoe_5.geometry} material={materials.stripes} material-color={snap.items.stripes} />
-      <mesh geometry={nodes.shoe_6.geometry} material={materials.band} material-color={snap.items.band} />
-      <mesh geometry={nodes.shoe_7.geometry} material={materials.patch} material-color={snap.items.patch} />
+      <mesh geometry={nodes.shoe.geometry} material={materials.laces} material-color={snapshot.items.laces} />
+      <mesh geometry={nodes.shoe_1.geometry} material={materials.mesh} material-color={snapshot.items.mesh} />
+      <mesh geometry={nodes.shoe_2.geometry} material={materials.caps} material-color={snapshot.items.caps} />
+      <mesh geometry={nodes.shoe_3.geometry} material={materials.inner} material-color={snapshot.items.inner} />
+      <mesh geometry={nodes.shoe_4.geometry} material={materials.sole} material-color={snapshot.items.sole} />
+      <mesh geometry={nodes.shoe_5.geometry} material={materials.stripes} material-color={snapshot.items.stripes} />
+      <mesh geometry={nodes.shoe_6.geometry} material={materials.band} material-color={snapshot.items.band} />
+      <mesh geometry={nodes.shoe_7.geometry} material={materials.patch} material-color={snapshot.items.patch} />
     </group>
   )
 }

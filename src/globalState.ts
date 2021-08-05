@@ -1,7 +1,18 @@
 import { proxy } from 'valtio'
 
+enum Item {
+  laces,
+  mesh,
+  caps,
+  inner,
+  sole,
+  stripes,
+  band,
+  patch,
+}
+
 type GlobalStateType = {
-  current: 'laces' | 'mesh' | 'caps' | 'inner' | 'sole' | 'stripes' | 'band' | 'patch'
+  current?: keyof typeof Item
   items: {
     laces: string
     mesh: string
@@ -14,8 +25,8 @@ type GlobalStateType = {
   }
 }
 
-export const GlobalState = proxy<GlobalStateType>({
-  current: 'laces',
+const initialState = {
+  current: undefined,
   items: {
     laces: '#ffffff',
     mesh: '#ffffff',
@@ -26,4 +37,6 @@ export const GlobalState = proxy<GlobalStateType>({
     band: '#ffffff',
     patch: '#ffffff',
   },
-})
+}
+
+export const GlobalState = proxy<GlobalStateType>(initialState)

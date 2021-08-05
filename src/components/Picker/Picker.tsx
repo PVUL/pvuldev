@@ -6,15 +6,17 @@ import { GlobalState } from '../../globalState'
 import styles from './Picker.module.scss'
 
 export const Picker = () => {
-  const snap = useSnapshot(GlobalState)
+  const snapshot = useSnapshot(GlobalState)
   return (
     <div className={styles.picker}>
-      {snap.current && (
+      {snapshot.current && (
         <>
-          <div className={styles.text}>{snap.current}</div>
+          <div className={styles.text}>{snapshot.current}</div>
           <HexColorPicker
-            color={snap.items[snap.current]}
-            onChange={(color) => (GlobalState.items[snap.current] = color)}
+            color={snapshot.items[snapshot.current]}
+            onChange={(color) => {
+              if (snapshot.current) GlobalState.items[snapshot.current] = color
+            }}
           />
         </>
       )}
